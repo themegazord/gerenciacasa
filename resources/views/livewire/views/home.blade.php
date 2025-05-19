@@ -8,6 +8,7 @@
       </p>
       <div class="mt-8">
         <a href="#cadastro" class="inline-block bg-indigo-600 text-white px-6 py-3 rounded-full hover:bg-indigo-700 transition">Começar agora</a>
+        <a href="/login" class="inline-block border border-indigo-600 text-indigo-600 px-6 py-3 rounded-full hover:bg-indigo-50 transition">Fazer login</a>
       </div>
     </div>
   </section>
