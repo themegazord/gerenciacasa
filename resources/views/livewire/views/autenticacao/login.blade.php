@@ -7,8 +7,9 @@
     <x-form wire:submit.prevent="login" class="w-full">
       <x-input label="Email" wire:model="email" />
       <x-password label="Senha" wire:model="senha" right />
+      <x-checkbox label="Manter conectado?" wire:model="manter_conectado" />
       <x-slot:actions>
-        <x-button label="Entrar" />
+        <x-button type="submit" label="Entrar" wire:loading.attr="disabled" spinner="login"/>
       </x-slot:actions>
     </x-form>
   </div>
