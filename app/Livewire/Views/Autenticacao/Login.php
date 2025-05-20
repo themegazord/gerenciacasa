@@ -12,4 +12,8 @@ class Login extends Component
   {
     return view('livewire.views.autenticacao.login');
   }
+
+  public function home(): void {
+    $this->redirect(route('home'));
+  }
 }
