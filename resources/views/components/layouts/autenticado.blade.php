@@ -50,14 +50,14 @@
         @endif
 
         {{-- Main Sections --}}
-        <x-menu-item title="Início" icon="o-home" link="/" />
+        <x-menu-item title="Início" icon="o-home" link="{{ route('dashboard') }}" />
 
         {{-- Finanças --}}
         <x-menu-sub title="Finanças" icon="o-currency-dollar">
           <x-menu-item title="Receitas" icon="o-arrow-up-circle" link="/receitas" />
           <x-menu-item title="Despesas" icon="o-arrow-down-circle" link="/despesas" />
           <x-menu-item title="Categorias" icon="o-tag" link="/categorias" />
-          <x-menu-item title="Contas Bancárias" icon="o-banknotes" link="/contas-bancarias" />
+          <x-menu-item title="Contas Bancárias" icon="o-banknotes" link="{{ route('financas.bancos.listagem') }}" />
         </x-menu-sub>
 
         {{-- Relatórios --}}
