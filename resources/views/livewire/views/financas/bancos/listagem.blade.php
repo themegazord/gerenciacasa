@@ -1,7 +1,7 @@
 <div class="p-4 md:p-6">
   <h1 class="text-2xl font-bold mb-6">Bancos</h1>
 
-  <div class="flex flex-col md:flex-row md:items-end gap-4">
+  <div class="flex flex-col md:flex-row md:items-end gap-4 mb-8">
     <div class="flex-1">
       <x-input label="Pesquisa" placeholder="Nome, tipo, agência, conta..." icon="o-magnifying-glass" inline/>
     </div>
@@ -22,8 +22,8 @@
       ['key' => 'saldo_atual', 'label' => 'Saldo atual'],
     ];
 
-    $bancos = collect();
+    $bancos = \App\Models\Banco::query()->paginate(5);
   @endphp
 
-  {{-- <x-table :headers="$headers" :rows="$bancos" empty-text="Não contêm bancos cadastrados" show-empty-text with-pagination /> --}}
+  <x-table :headers="$headers" :rows="$bancos" empty-text="Não contêm bancos cadastrados" show-empty-text with-pagination />
 </div>
