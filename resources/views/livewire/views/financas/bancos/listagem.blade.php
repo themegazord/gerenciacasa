@@ -10,7 +10,10 @@
       <label for="ativo" class="font-medium">Ativo?</label>
     </div>
     <div>
-      <x-button label="Pesquisar" icon="o-magnifying-glass" class="btn btn-primary" />
+      <x-button label="Pesquisar" icon="o-magnifying-glass" class="btn btn-primary w-full md:w-auto" />
+    </div>
+    <div>
+      <x-button label="Cadastrar" icon="o-plus" class="btn btn-success w-full md:w-auto" />
     </div>
   </div>
 
