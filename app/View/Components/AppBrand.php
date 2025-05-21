@@ -26,16 +26,13 @@ class AppBrand extends Component
                     <!-- Hidden when collapsed -->
                     <div {{ $attributes->class(["hidden-when-collapsed"]) }}>
                         <div class="flex items-center gap-2 w-fit">
-                            <x-icon name="o-cube" class="w-6 -mb-1.5 text-purple-500" />
-                            <span class="font-bold text-3xl me-3 bg-gradient-to-r from-purple-500 to-pink-300 bg-clip-text text-transparent ">
-                                app
-                            </span>
+                            <img src="{{ asset('logo_cinza.png') }}" alt="Logo da empresa" class="w-[150px] h-[75px] sm:w-[250px] sm:h-[125px] my-[-2rem]">
                         </div>
                     </div>
 
                     <!-- Display when collapsed -->
                     <div class="display-when-collapsed hidden mx-5 mt-5 mb-1 h-[28px]">
-                        <x-icon name="s-cube" class="w-6 -mb-1.5 text-purple-500" />
+                        <x-icon name="o-home" class="w-6 -mb-1.5 text-purple-500" />
                     </div>
                 </a>
             HTML;
