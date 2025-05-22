@@ -24,9 +24,9 @@ class Banco extends Model
     return $this->belongsTo(User::class);
   }
 
-  public function tiposBancos(string $tipo): string
+  public function tiposBancos(?string $tipo = null): string
   {
-    return match ($tipo) {
+    return match ($tipo ?? $this->tipo) {
       'corrente' => 'Conta Corrente',
       'poupanca' => 'Conta Poupança',
       'carteira' => 'Carteira Física',

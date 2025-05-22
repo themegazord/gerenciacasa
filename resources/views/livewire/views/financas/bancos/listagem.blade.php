@@ -28,5 +28,9 @@
     $bancos = \App\Models\Banco::query()->paginate(5);
   @endphp
 
-  <x-table :headers="$headers" :rows="$bancos" empty-text="Não contêm bancos cadastrados" show-empty-text with-pagination />
+  <x-table :headers="$headers" :rows="$bancos" empty-text="Não contêm bancos cadastrados" show-empty-text with-pagination>
+    @scope('cell_tipo', $banco)
+    {{ $banco->tiposBancos() }}
+    @endscope
+  </x-table>
 </div>
