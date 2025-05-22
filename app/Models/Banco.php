@@ -19,7 +19,23 @@ class Banco extends Model
     'descricao',
   ];
 
-  public function usuario(): BelongsTo {
+  public function usuario(): BelongsTo
+  {
     return $this->belongsTo(User::class);
+  }
+
+  public function tiposBancos(string $tipo): string
+  {
+    return match ($tipo) {
+      'corrente' => 'Conta Corrente',
+      'poupanca' => 'Conta Poupança',
+      'carteira' => 'Carteira Física',
+      'digital' => 'Conta Digital',
+      'investimento' => 'Investimentos',
+      'caixa_empresa' => 'Caixa da Empresa',
+      'cartao_credito' => 'Cartão de Crédito',
+      'moeda_estrangeira' => 'Conta em Moeda Estrangeira',
+      'outro' => 'Outro'
+    };
   }
 }

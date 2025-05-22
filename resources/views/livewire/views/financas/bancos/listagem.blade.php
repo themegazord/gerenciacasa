@@ -13,7 +13,7 @@
       <x-button label="Pesquisar" icon="o-magnifying-glass" class="btn btn-primary w-full md:w-auto" />
     </div>
     <div>
-      <x-button label="Cadastrar" icon="o-plus" class="btn btn-success w-full md:w-auto" />
+      <x-button label="Cadastrar" icon="o-plus" class="btn btn-success w-full md:w-auto" link="{{ route('financas.bancos.cadastro') }}"/>
     </div>
   </div>
 

@@ -10,6 +10,7 @@ Route::middleware('auth')->group(function () {
   Route::prefix('financas')->group(function () {
     Route::prefix('bancos')->group(function () {
       Route::get('/', Views\Financas\Bancos\Listagem::class)->name('financas.bancos.listagem');
+      Route::get('/cadastro', Views\Financas\Bancos\Cadastro::class)->name('financas.bancos.cadastro');
     });
   });
 });
