@@ -11,6 +11,7 @@ Route::middleware('auth')->group(function () {
     Route::prefix('bancos')->group(function () {
       Route::get('/', Views\Financas\Bancos\Listagem::class)->name('financas.bancos.listagem');
       Route::get('/cadastro', Views\Financas\Bancos\Cadastro::class)->name('financas.bancos.cadastro');
+      Route::get('/edicao/{id}', Views\Financas\Bancos\Edicao::class)->name('financas.bancos.edicao');
     });
   });
 });

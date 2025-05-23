@@ -16,6 +16,7 @@ class Listagem extends Component
 
   public Banco $bancoAtual;
   public bool $modalVisualizacao = false;
+  public bool $consultaAtivo = true;
 
   #[Title('Financas - Bancos')]
   #[Layout('components.layouts.autenticado')]
