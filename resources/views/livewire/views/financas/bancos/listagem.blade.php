@@ -1,22 +1,16 @@
-<div class="p-4 md:p-6">
-  <h1 class="text-2xl font-bold mb-6">Bancos</h1>
+@php
+  $tiposBancos = [
+    ['tipo' => 'corrente', 'label' => 'Conta Corrente'],
+    ['tipo' => 'poupanca', 'label' => 'Conta Poupança'],
+    ['tipo' => 'carteira', 'label' => 'Carteira Física'],
+    ['tipo' => 'digital', 'label' => 'Conta Digital'],
+    ['tipo' => 'investimento', 'label' => 'Investimentos'],
+    ['tipo' => 'caixa_empresa', 'label' => 'Caixa da Empresa'],
+    ['tipo' => 'cartao_credito', 'label' => 'Cartão de Crédito'],
+    ['tipo' => 'moeda_estrangeira', 'label' => 'Conta em Moeda Estrangeira'],
+    ['tipo' => 'outro', 'label' => 'Outro'],
+  ];
 
-  <div class="flex flex-col md:flex-row md:items-end gap-4 mb-8">
-    <div class="flex-1">
-      <x-input label="Pesquisa" placeholder="Nome, tipo, agência, conta..." icon="o-magnifying-glass" inline />
-    </div>
-    <div class="flex items-center gap-2">
-      <x-toggle id="ativo" label="Ativo?" wire:model="consultaAtivo"/>
-    </div>
-    <div>
-      <x-button label="Pesquisar" icon="o-magnifying-glass" class="btn btn-primary w-full md:w-auto" />
-    </div>
-    <div>
-      <x-button label="Cadastrar" icon="o-plus" class="btn btn-success w-full md:w-auto" link="{{ route('financas.bancos.cadastro') }}" />
-    </div>
-  </div>
-
-  @php
   $headers = [
     ['key' => 'id', 'label' => '#'],
     ['key' => 'nome', 'label' => 'Nome'],
@@ -24,8 +18,24 @@
     ['key' => 'saldo_atual', 'label' => 'Saldo atual'],
   ];
 
-  $bancos = \App\Models\Banco::query()->paginate(5);
-  @endphp
+@endphp
+<div class="p-4 md:p-6">
+  <h1 class="text-2xl font-bold mb-6">Bancos</h1>
+
+  <div class="flex flex-col md:flex-row md:items-end gap-4 mb-8">
+    <div class="flex-3">
+      <x-input wire:model.live.debounce="pesquisa" label="Pesquisa" placeholder="Nome, tipo, agência, conta..." icon="o-magnifying-glass" inline />
+    </div>
+    <div class="flex-2">
+      <x-select label="Tipo do banco" wire:model.live.debounce="pesquisaTipoBanco" :options="$tiposBancos" option-value="tipo" inline option-label="label" placeholder="Selecione o tipo do banco..."/>
+    </div>
+    <div class="flex-1">
+      <x-toggle id="ativo" label="Ativo?" wire:model.live.debounce="consultaAtivo"/>
+    </div>
+    <div class="flex-1">
+      <x-button label="Cadastrar" icon="o-plus" class="btn btn-success w-full md:w-auto" link="{{ route('financas.bancos.cadastro') }}" />
+    </div>
+  </div>
 
   <x-table :headers="$headers" :rows="$bancos" empty-text="Não contêm bancos cadastrados" show-empty-text with-pagination>
     @scope('cell_tipo', $banco)
