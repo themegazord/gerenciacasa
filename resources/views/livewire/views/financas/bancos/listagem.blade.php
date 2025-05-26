@@ -52,7 +52,7 @@
       </x-popover>
       <x-popover>
         <x-slot:trigger>
-          <x-button icon="o-eye-slash" />
+          <x-button icon="o-eye-slash" wire:click="setInativacaoBanco({{ $banco->id }})"/>
         </x-slot:trigger>
         <x-slot:content>
           Inativar
@@ -68,40 +68,54 @@
     @if ($bancoAtual !== null)
     <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
       <div>
-        <p class="font-semibold text-sm text-gray-400">Nome</p>
+        <p class="font-semibold text-sm">Nome</p>
         <p class="text-lg font-medium">{{ $bancoAtual->nome }}</p>
       </div>
       <div>
-        <p class="font-semibold text-sm text-gray-400">Tipo</p>
+        <p class="font-semibold text-sm">Tipo</p>
         <p class="text-lg font-medium">{{ $bancoAtual->tiposBancos() }}</p>
       </div>
 
       <div>
-        <p class="font-semibold text-sm text-gray-400">Saldo Inicial</p>
+        <p class="font-semibold text-sm">Saldo Inicial</p>
         <p class="text-lg font-medium text-green-500">R$ {{ number_format($bancoAtual->saldo_inicial, 2, ',', '.') }}</p>
       </div>
       <div>
-        <p class="font-semibold text-sm text-gray-400">Saldo Atual</p>
+        <p class="font-semibold text-sm">Saldo Atual</p>
         <p class="text-lg font-medium text-blue-500">R$ {{ number_format($bancoAtual->saldo_atual, 2, ',', '.') }}</p>
       </div>
 
       <div>
-        <p class="font-semibold text-sm text-gray-400">Agência</p>
+        <p class="font-semibold text-sm">Agência</p>
         <p class="text-lg font-medium">{{ $bancoAtual->agencia }}</p>
       </div>
       <div>
-        <p class="font-semibold text-sm text-gray-400">Nº da Conta</p>
+        <p class="font-semibold text-sm">Nº da Conta</p>
         <p class="text-lg font-medium">{{ $bancoAtual->numero_conta }}</p>
       </div>
 
       <div class="md:col-span-2">
-        <p class="font-semibold text-sm text-gray-400">Descrição</p>
+        <p class="font-semibold text-sm">Descrição</p>
         <p class="text-base">{{ $bancoAtual->descricao ?: '—' }}</p>
       </div>
     </div>
     @endif
   </x-modal>
 
-
   <!-- modal de visualizacao dos dados -->
+
+  {{-- modal de inativacao do banco  --}}
+
+  <x-modal wire:model="modalInativacao" title="Inativação do banco" class="backdrop-blur" box-class="max-w-xl w-11/12">
+    @if ($bancoAtual !== null)
+      <p class="font-semibold text-lg">Você pretende realmente inativar esse banco? Todas as movimentações em relatórios não serão contabilizados e nenhuma movimentação não poderá ser adicinado no banco inativo.</p>
+
+      <x-slot:actions>
+        <x-button label="Cancelar" class="btn btn-primary" @click="$wire.set('modalInativacao', false)"/>
+        <x-button label="Inativar" class="btn btn-error" wire:click="inativarBanco" wire:loading.attr="disabled" spinner="inativarBanco"/>
+      </x-slot:actions>
+    @endif
+  </x-modal>
+
+  {{-- modal de inativacao do banco  --}}
 </div>
