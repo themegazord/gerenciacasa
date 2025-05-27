@@ -50,4 +50,8 @@ class User extends Authenticatable
     public function bancos(): HasMany {
       return $this->hasMany(Banco::class);
     }
+
+    public function categoriaFinancas(): HasMany {
+      return $this->hasMany(CategoriaFinanca::class);
+    }
 }

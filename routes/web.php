@@ -17,7 +17,8 @@ Route::middleware('auth')->group(function () {
     //   Route::get('/', Views\Financas\Receitas\Listagem::class)->name('financas.receitas.listagem');
     // });
     Route::prefix('categorias')->group(function () {
-      Route::get('listagem', Views\Financas\Categorias\Listagem::class)->name('financas.categorias.listagem');
+      Route::get('/', Views\Financas\Categorias\Listagem::class)->name('financas.categorias.listagem');
+      Route::get('/cadastro', Views\Financas\Categorias\Cadastro::class)->name('financas.categorias.cadastro');
     });
   });
 });
