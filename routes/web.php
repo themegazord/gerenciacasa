@@ -19,6 +19,7 @@ Route::middleware('auth')->group(function () {
     Route::prefix('categorias')->group(function () {
       Route::get('/', Views\Financas\Categorias\Listagem::class)->name('financas.categorias.listagem');
       Route::get('/cadastro', Views\Financas\Categorias\Cadastro::class)->name('financas.categorias.cadastro');
+      Route::get('/edicao/{id}', Views\Financas\Categorias\Edicao::class)->name('financas.categorias.edicao');
     });
   });
 });

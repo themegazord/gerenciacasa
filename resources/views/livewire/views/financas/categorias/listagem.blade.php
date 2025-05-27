@@ -35,7 +35,7 @@
       <x-badge class="badge-soft {{ $tipo->badgeClass() }}" value="{{ $tipo->label() }}"/>
     @endscope
 
-    @scope('actions', $banco)
+    @scope('actions', $categoria)
     <div class="flex flex-row">
       <x-popover>
         <x-slot:trigger>
@@ -47,7 +47,7 @@
       </x-popover>
       <x-popover>
         <x-slot:trigger>
-          <x-button icon="o-pencil-square" />
+          <x-button icon="o-pencil-square" link="{{ route('financas.categorias.edicao', ['id' => $categoria->id]) }}"/>
         </x-slot:trigger>
         <x-slot:content>
           Editar
