@@ -13,5 +13,11 @@ Route::middleware('auth')->group(function () {
       Route::get('/cadastro', Views\Financas\Bancos\Cadastro::class)->name('financas.bancos.cadastro');
       Route::get('/edicao/{id}', Views\Financas\Bancos\Edicao::class)->name('financas.bancos.edicao');
     });
+    // Route::prefix('receitas')->group(function () {
+    //   Route::get('/', Views\Financas\Receitas\Listagem::class)->name('financas.receitas.listagem');
+    // });
+    Route::prefix('categorias')->group(function () {
+      Route::get('listagem', Views\Financas\Categorias\Listagem::class)->name('financas.categorias.listagem');
+    });
   });
 });
