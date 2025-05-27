@@ -1,14 +1,14 @@
 @php
-  $tiposCategorias = [
-    ['tipo' => 'receita', 'label' => 'Receitas'],
-    ['tipo' => 'despesa', 'label' => 'Despesas'],
-  ];
+$tiposCategorias = [
+['tipo' => 'receita', 'label' => 'Receitas'],
+['tipo' => 'despesa', 'label' => 'Despesas'],
+];
 
-  $headers = [
-    ['key' => 'id', 'label' => '#'],
-    ['key' => 'nome', 'label' => 'Categoria'],
-    ['key' => 'tipo', 'label' => 'Tipo']
-  ];
+$headers = [
+['key' => 'id', 'label' => '#'],
+['key' => 'nome', 'label' => 'Categoria'],
+['key' => 'tipo', 'label' => 'Tipo']
+];
 @endphp
 <div class="p-4 md:p-6">
   <p class="text-2xl font-bold mb-6">Categorias</p>
@@ -29,17 +29,17 @@
 
   <x-table :headers="$headers" :rows="$categorias" with-pagination>
     @scope('cell_tipo', $categoria)
-      @php
-        $tipo = $categoria->tipo; // é um enum se estiver com cast
-      @endphp
-      <x-badge class="badge-soft {{ $tipo->badgeClass() }}" value="{{ $tipo->label() }}"/>
+    @php
+    $tipo = $categoria->tipo; // é um enum se estiver com cast
+    @endphp
+    <x-badge class="badge-soft {{ $tipo->badgeClass() }}" value="{{ $tipo->label() }}" />
     @endscope
 
     @scope('actions', $categoria)
     <div class="flex flex-row">
       <x-popover>
         <x-slot:trigger>
-          <x-button icon="o-eye"  />
+          <x-button icon="o-eye" wire:click="setCategoriaVisualizacao({{ $categoria->id }})"/>
         </x-slot:trigger>
         <x-slot:content>
           Visualizar
@@ -47,7 +47,7 @@
       </x-popover>
       <x-popover>
         <x-slot:trigger>
-          <x-button icon="o-pencil-square" link="{{ route('financas.categorias.edicao', ['id' => $categoria->id]) }}"/>
+          <x-button icon="o-pencil-square" link="{{ route('financas.categorias.edicao', ['id' => $categoria->id]) }}" />
         </x-slot:trigger>
         <x-slot:content>
           Editar
@@ -72,4 +72,34 @@
     </div>
     @endscope
   </x-table>
+
+  <x-modal wire:model="modalVisualizacao" class="backdrop-blur" box-class="max-w-3xl w-11/12">
+    @if ($categoriaAtual)
+    <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+      <div>
+        <p class="text-sm text-gray-500">Nome</p>
+        <p class="text-lg font-bold">{{ $categoriaAtual->nome }}</p>
+      </div>
+
+      <div>
+        <p class="text-sm text-gray-500">Tipo</p>
+        <x-badge
+          class="badge-soft {{ $categoriaAtual->tipo->badgeClass() }}"
+          value="{{ $categoriaAtual->tipo->label() }}" />
+      </div>
+
+      <div>
+        <p class="text-sm text-gray-500">Status</p>
+        <x-badge
+          class="badge-soft {{ !$categoriaAtual->trashed() ? 'badge-success' : 'badge-error' }}"
+          value="{{ !$categoriaAtual->trashed() ? 'Ativo' : 'Inativo' }}" />
+      </div>
+    </div>
+    @else
+    <div class="text-center text-gray-500 py-8">
+      Nenhuma categoria selecionada.
+    </div>
+    @endif
+  </x-modal>
+
 </div>

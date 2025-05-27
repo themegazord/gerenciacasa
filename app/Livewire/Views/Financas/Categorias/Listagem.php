@@ -3,6 +3,7 @@
 namespace App\Livewire\Views\Financas\Categorias;
 
 use App\Models\CategoriaFinanca;
+use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Illuminate\Pagination\LengthAwarePaginator;
 use Livewire\Attributes\Layout;
 use Livewire\Attributes\Title;
@@ -14,6 +15,8 @@ class Listagem extends Component
 {
   use WithPagination, Toast;
 
+  public CategoriaFinanca $categoriaAtual;
+  public bool $modalVisualizacao = false;
   public bool $pesquisaAtivo = true;
   public string $pesquisa = "";
   public ?string $pesquisaTipo = null;
@@ -53,5 +56,14 @@ class Listagem extends Component
     }
 
     return $query->paginate($this->porPagina);
+  }
+
+  public function setCategoriaVisualizacao(int $id): void {
+    try {
+      $this->categoriaAtual = CategoriaFinanca::query()->findOrFail($id);
+      $this->modalVisualizacao = !$this->modalVisualizacao;
+    } catch (ModelNotFoundException $e) {
+      $this->warning('Categoria não existe.');
+    }
   }
 }
