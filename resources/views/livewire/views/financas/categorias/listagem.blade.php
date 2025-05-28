@@ -39,7 +39,7 @@ $headers = [
     <div class="flex flex-row">
       <x-popover>
         <x-slot:trigger>
-          <x-button icon="o-eye" wire:click="setCategoriaVisualizacao({{ $categoria->id }})" />
+          <x-button icon="o-eye" wire:click="setCategoriaAtual({{ $categoria->id }}, 'visualizacao')" />
         </x-slot:trigger>
         <x-slot:content>
           Visualizar
@@ -55,7 +55,7 @@ $headers = [
       </x-popover>
       <x-popover>
         <x-slot:trigger>
-          <x-button icon="o-eye-slash" wire:click="setCategoriaInativacao({{ $categoria->id }})"/>
+          <x-button icon="o-eye-slash" wire:click="setCategoriaAtual({{ $categoria->id }}, 'status')"/>
         </x-slot:trigger>
         <x-slot:content>
           {{ !$categoria->trashed() ? 'Inativar' : 'Restaurar' }}
@@ -63,7 +63,7 @@ $headers = [
       </x-popover>
       <x-popover>
         <x-slot:trigger>
-          <x-button icon="o-trash" />
+          <x-button icon="o-trash" wire:click="setCategoriaAtual({{ $categoria->id }}, 'remocao')"/>
         </x-slot:trigger>
         <x-slot:content>
           Remover
@@ -116,5 +116,18 @@ $headers = [
     @endif
   </x-modal>
   {{-- modal para requisicao de inativacao de categoria --}}
+
+  {{-- modal para requisicao de remoção de categoria --}}
+  <x-modal wire:model="modalRemocaoCategoria" class="backdrop-blur" box-class="max-w-xl w-11/12">
+    @if ($categoriaAtual)
+      <p class="font-semibold text-lg">Você deseja remover essa categoria? Lembrando que, a partir do momento que essa categoria está em uso em alguma receita ou despesa, não será possivel a remoção.</p>
+
+      <x-slot:actions>
+        <x-button label="Cancelar" @click="$wire.set('modalRemocaoCategoria', false)" class="btn btn-primary"/>
+        <x-button label="Remover" wire:click="removerCategoria" class="btn btn-error" wire:loading.attr="disabled" spinner="removerCategoria"/>
+      </x-slot:actions>
+    @endif
+  </x-modal>
+  {{-- modal para requisicao de remoção de categoria --}}
 
 </div>

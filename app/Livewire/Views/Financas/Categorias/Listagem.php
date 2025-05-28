@@ -18,6 +18,7 @@ class Listagem extends Component
   public CategoriaFinanca $categoriaAtual;
   public bool $modalVisualizacao = false;
   public bool $modalAlteracaoStatusCategoria = false;
+  public bool $modalRemocaoCategoria = false;
   public bool $pesquisaAtivo = true;
   public string $pesquisa = "";
   public ?string $pesquisaTipo = null;
@@ -32,7 +33,8 @@ class Listagem extends Component
     ]);
   }
 
-  public function updated(string $props, mixed $valor): void {
+  public function updated(string $props, mixed $valor): void
+  {
     if ($props === 'pesquisaTipo') {
       if ($valor === "") $this->pesquisaTipo = null;
       $this->categorias();
@@ -41,7 +43,8 @@ class Listagem extends Component
     if ($props === 'pesquisaAtivo') $this->categorias();
   }
 
-  public function categorias(): LengthAwarePaginator {
+  public function categorias(): LengthAwarePaginator
+  {
     $query = CategoriaFinanca::query();
 
     $query->where(function ($q) {
@@ -59,25 +62,22 @@ class Listagem extends Component
     return $query->paginate($this->porPagina);
   }
 
-  public function setCategoriaVisualizacao(int $id): void {
+  public function setCategoriaAtual(int $id, string $operacao): void
+  {
     try {
       $this->categoriaAtual = CategoriaFinanca::query()->withTrashed()->findOrFail($id);
-      $this->modalVisualizacao = !$this->modalVisualizacao;
+      match ($operacao) {
+        'visualizacao' => $this->modalVisualizacao = !$this->modalVisualizacao,
+        'status' => $this->modalAlteracaoStatusCategoria = !$this->modalAlteracaoStatusCategoria,
+        'remocao' => $this->modalRemocaoCategoria = !$this->modalRemocaoCategoria,
+      };
     } catch (ModelNotFoundException $e) {
       $this->warning('Categoria não existe.');
     }
   }
 
-  public function setCategoriaInativacao(int $id): void {
-    try {
-      $this->categoriaAtual = CategoriaFinanca::query()->withTrashed()->findOrFail($id);
-      $this->modalAlteracaoStatusCategoria = !$this->modalAlteracaoStatusCategoria;
-    } catch (ModelNotFoundException $e) {
-      $this->warning('Categoria não existe.');
-    }
-  }
-
-  public function alterarStatusCategoria(): void {
+  public function alterarStatusCategoria(): void
+  {
     if (!$this->categoriaAtual->trashed()) {
       $this->categoriaAtual->delete();
     } else {
@@ -86,5 +86,12 @@ class Listagem extends Component
 
     $this->success('Status da categoria alterado.');
     $this->modalAlteracaoStatusCategoria = !$this->modalAlteracaoStatusCategoria;
+  }
+
+  public function removerCategoria(): void {
+    $this->categoriaAtual->forceDelete();
+    // TODO: adicionar futuramente a validação para verificar se a categoria está em uso em alguma receita ou despesa.
+    $this->success('Categoria removida com sucesso');
+    $this->modalRemocaoCategoria = !$this->modalRemocaoCategoria;
   }
 }
