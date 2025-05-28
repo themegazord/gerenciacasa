@@ -39,7 +39,7 @@ $headers = [
     <div class="flex flex-row">
       <x-popover>
         <x-slot:trigger>
-          <x-button icon="o-eye" wire:click="setCategoriaVisualizacao({{ $categoria->id }})"/>
+          <x-button icon="o-eye" wire:click="setCategoriaVisualizacao({{ $categoria->id }})" />
         </x-slot:trigger>
         <x-slot:content>
           Visualizar
@@ -55,10 +55,10 @@ $headers = [
       </x-popover>
       <x-popover>
         <x-slot:trigger>
-          <x-button icon="o-eye-slash" />
+          <x-button icon="o-eye-slash" wire:click="setCategoriaInativacao({{ $categoria->id }})"/>
         </x-slot:trigger>
         <x-slot:content>
-          Inativar
+          {{ !$categoria->trashed() ? 'Inativar' : 'Restaurar' }}
         </x-slot:content>
       </x-popover>
       <x-popover>
@@ -73,6 +73,7 @@ $headers = [
     @endscope
   </x-table>
 
+  {{-- modal para visualizacao de categoria --}}
   <x-modal wire:model="modalVisualizacao" class="backdrop-blur" box-class="max-w-3xl w-11/12">
     @if ($categoriaAtual)
     <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
@@ -101,5 +102,19 @@ $headers = [
     </div>
     @endif
   </x-modal>
+  {{-- modal para visualizacao de categoria --}}
+
+  {{-- modal para requisicao de inativacao de categoria --}}
+  <x-modal wire:model="modalAlteracaoStatusCategoria" class="backdrop-blur" box-class="max-w-xl w-11/12">
+    @if ($categoriaAtual)
+    <p class="font-semibold text-lg">Você pretende realmente alterar o status dessa categoria? Lembre-se que para inativar, você deverá não ter nenhuma receita ou despesa usando ele.</p>
+
+    <x-slot:actions>
+      <x-button label="Cancelar" class="btn {{ !$categoriaAtual->trashed() ? 'btn-primary' : 'btn-error' }}" @click="$wire.set('modalAlteracaoStatusCategoria', false)" />
+      <x-button label="{{ !$categoriaAtual->trashed() ? 'Inativar' : 'Restaurar' }}" class="btn {{ !$categoriaAtual->trashed() ? 'btn-error' : 'btn-primary' }}" wire:click="alterarStatusCategoria" wire:loading.attr="disabled" spinner="alterarStatusCategoria" />
+    </x-slot:actions>
+    @endif
+  </x-modal>
+  {{-- modal para requisicao de inativacao de categoria --}}
 
 </div>

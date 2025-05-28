@@ -17,6 +17,7 @@ class Listagem extends Component
 
   public CategoriaFinanca $categoriaAtual;
   public bool $modalVisualizacao = false;
+  public bool $modalAlteracaoStatusCategoria = false;
   public bool $pesquisaAtivo = true;
   public string $pesquisa = "";
   public ?string $pesquisaTipo = null;
@@ -60,10 +61,30 @@ class Listagem extends Component
 
   public function setCategoriaVisualizacao(int $id): void {
     try {
-      $this->categoriaAtual = CategoriaFinanca::query()->findOrFail($id);
+      $this->categoriaAtual = CategoriaFinanca::query()->withTrashed()->findOrFail($id);
       $this->modalVisualizacao = !$this->modalVisualizacao;
     } catch (ModelNotFoundException $e) {
       $this->warning('Categoria não existe.');
     }
+  }
+
+  public function setCategoriaInativacao(int $id): void {
+    try {
+      $this->categoriaAtual = CategoriaFinanca::query()->withTrashed()->findOrFail($id);
+      $this->modalAlteracaoStatusCategoria = !$this->modalAlteracaoStatusCategoria;
+    } catch (ModelNotFoundException $e) {
+      $this->warning('Categoria não existe.');
+    }
+  }
+
+  public function alterarStatusCategoria(): void {
+    if (!$this->categoriaAtual->trashed()) {
+      $this->categoriaAtual->delete();
+    } else {
+      $this->categoriaAtual->restore();
+    }
+
+    $this->success('Status da categoria alterado.');
+    $this->modalAlteracaoStatusCategoria = !$this->modalAlteracaoStatusCategoria;
   }
 }

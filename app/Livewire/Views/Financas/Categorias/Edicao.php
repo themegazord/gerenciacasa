@@ -22,7 +22,7 @@ class Edicao extends Component
 
   public function mount(int $id): void {
     try {
-      $this->categoriaAtual = CategoriaFinanca::query()->findOrFail($id);
+      $this->categoriaAtual = CategoriaFinanca::query()->withTrashed()->findOrFail($id);
       $this->categoria['tipo'] = $this->categoriaAtual->tipo;
       $this->categoria['cor'] = $this->categoriaAtual->cor;
     } catch (ModelNotFoundException $e) {
