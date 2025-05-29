@@ -36,40 +36,12 @@ $headers = [
     @endscope
 
     @scope('actions', $categoria)
-    <div class="flex flex-row">
-      <x-popover>
-        <x-slot:trigger>
-          <x-button icon="o-eye" wire:click="setCategoriaAtual({{ $categoria->id }}, 'visualizacao')" />
-        </x-slot:trigger>
-        <x-slot:content>
-          Visualizar
-        </x-slot:content>
-      </x-popover>
-      <x-popover>
-        <x-slot:trigger>
-          <x-button icon="o-pencil-square" link="{{ route('financas.categorias.edicao', ['id' => $categoria->id]) }}" />
-        </x-slot:trigger>
-        <x-slot:content>
-          Editar
-        </x-slot:content>
-      </x-popover>
-      <x-popover>
-        <x-slot:trigger>
-          <x-button icon="o-eye-slash" wire:click="setCategoriaAtual({{ $categoria->id }}, 'status')"/>
-        </x-slot:trigger>
-        <x-slot:content>
-          {{ !$categoria->trashed() ? 'Inativar' : 'Restaurar' }}
-        </x-slot:content>
-      </x-popover>
-      <x-popover>
-        <x-slot:trigger>
-          <x-button icon="o-trash" wire:click="setCategoriaAtual({{ $categoria->id }}, 'remocao')"/>
-        </x-slot:trigger>
-        <x-slot:content>
-          Remover
-        </x-slot:content>
-      </x-popover>
-    </div>
+    <x-dropdown>
+      <x-menu-item title="Visualizar" icon="o-eye" wire:click="setCategoriaAtual({{ $categoria->id }}, 'visualizacao')" />
+      <x-menu-item title="Editar" icon="o-pencil-square" link="{{ route('financas.categorias.edicao', ['id' => $categoria->id]) }}"/>
+      <x-menu-item title="{{ !$categoria->trashed() ? 'Inativar' : 'Restaurar' }}" icon="o-arrow-path-rounded-square"  wire:click="setCategoriaAtual({{ $categoria->id }}, 'status')"/>
+      <x-menu-item title="Remover" icon="o-trash" wire:click="setCategoriaAtual({{ $categoria->id }}, 'remocao')"/>
+    </x-dropdown>
     @endscope
   </x-table>
 
@@ -120,12 +92,12 @@ $headers = [
   {{-- modal para requisicao de remoção de categoria --}}
   <x-modal wire:model="modalRemocaoCategoria" class="backdrop-blur" box-class="max-w-xl w-11/12">
     @if ($categoriaAtual)
-      <p class="font-semibold text-lg">Você deseja remover essa categoria? Lembrando que, a partir do momento que essa categoria está em uso em alguma receita ou despesa, não será possivel a remoção.</p>
+    <p class="font-semibold text-lg">Você deseja remover essa categoria? Lembrando que, a partir do momento que essa categoria está em uso em alguma receita ou despesa, não será possivel a remoção.</p>
 
-      <x-slot:actions>
-        <x-button label="Cancelar" @click="$wire.set('modalRemocaoCategoria', false)" class="btn btn-primary"/>
-        <x-button label="Remover" wire:click="removerCategoria" class="btn btn-error" wire:loading.attr="disabled" spinner="removerCategoria"/>
-      </x-slot:actions>
+    <x-slot:actions>
+      <x-button label="Cancelar" @click="$wire.set('modalRemocaoCategoria', false)" class="btn btn-primary" />
+      <x-button label="Remover" wire:click="removerCategoria" class="btn btn-error" wire:loading.attr="disabled" spinner="removerCategoria" />
+    </x-slot:actions>
     @endif
   </x-modal>
   {{-- modal para requisicao de remoção de categoria --}}
