@@ -13,9 +13,10 @@ Route::middleware('auth')->group(function () {
       Route::get('/cadastro', Views\Financas\Bancos\Cadastro::class)->name('financas.bancos.cadastro');
       Route::get('/edicao/{id}', Views\Financas\Bancos\Edicao::class)->name('financas.bancos.edicao');
     });
-    // Route::prefix('receitas')->group(function () {
-    //   Route::get('/', Views\Financas\Receitas\Listagem::class)->name('financas.receitas.listagem');
-    // });
+    Route::prefix('receitas')->group(function () {
+      Route::get('/', Views\Financas\Receitas\Listagem::class)->name('financas.receitas.listagem');
+      Route::get('/cadastro')->name('financas.receitas.cadastro');
+    });
     Route::prefix('categorias')->group(function () {
       Route::get('/', Views\Financas\Categorias\Listagem::class)->name('financas.categorias.listagem');
       Route::get('/cadastro', Views\Financas\Categorias\Cadastro::class)->name('financas.categorias.cadastro');

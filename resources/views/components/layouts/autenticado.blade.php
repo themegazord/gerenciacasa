@@ -9,6 +9,15 @@
 
   @vite(['resources/css/app.css', 'resources/js/app.js'])
   <script type="text/javascript" src="https://cdn.jsdelivr.net/gh/robsontenorio/mary@0.44.2/libs/currency/currency.js"></script>
+
+  {{-- Flatpickr  --}}
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css">
+    <script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
+    <script src="https://npmcdn.com/flatpickr/dist/l10n/pt.js"></script>
+
+    <script>
+        flatpickr.localize(flatpickr.l10ns.pt);
+    </script>
 </head>
 
 <body class="min-h-screen font-sans antialiased bg-base-200">
@@ -55,7 +64,7 @@
 
         {{-- Finanças --}}
         <x-menu-sub title="Finanças" icon="o-currency-dollar">
-          <x-menu-item title="Receitas" icon="o-arrow-up-circle" link="/receitas" />
+          <x-menu-item title="Receitas" icon="o-arrow-up-circle" link="{{ route('financas.receitas.listagem') }}" />
           <x-menu-item title="Despesas" icon="o-arrow-down-circle" link="/despesas" />
           <x-menu-item title="Categorias" icon="o-tag" link="{{ route('financas.categorias.listagem') }}" />
           <x-menu-item title="Contas Bancárias" icon="o-banknotes" link="{{ route('financas.bancos.listagem') }}" />
