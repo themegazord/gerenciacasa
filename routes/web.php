@@ -15,7 +15,7 @@ Route::middleware('auth')->group(function () {
     });
     Route::prefix('receitas')->group(function () {
       Route::get('/', Views\Financas\Receitas\Listagem::class)->name('financas.receitas.listagem');
-      Route::get('/cadastro')->name('financas.receitas.cadastro');
+      Route::get('/cadastro', Views\Financas\Receitas\Cadastro::class)->name('financas.receitas.cadastro');
     });
     Route::prefix('categorias')->group(function () {
       Route::get('/', Views\Financas\Categorias\Listagem::class)->name('financas.categorias.listagem');

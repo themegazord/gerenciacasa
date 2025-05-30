@@ -4,6 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
 class Banco extends Model
@@ -25,6 +26,10 @@ class Banco extends Model
   public function usuario(): BelongsTo
   {
     return $this->belongsTo(User::class);
+  }
+
+  public function receitas(): HasMany {
+    return $this->hasMany(Receita::class);
   }
 
   public function tiposBancos(?string $tipo = null): string

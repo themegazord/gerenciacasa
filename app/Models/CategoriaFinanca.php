@@ -5,6 +5,7 @@ namespace App\Models;
 use App\Enums\TipoCategoria;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
 class CategoriaFinanca extends Model
@@ -25,5 +26,9 @@ class CategoriaFinanca extends Model
 
   public function usuario(): BelongsTo {
     return $this->belongsTo(User::class);
+  }
+
+  public function receitas(): HasMany {
+    return $this->hasMany(Receita::class);
   }
 }
