@@ -6,21 +6,25 @@ use App\Models\Receita;
 use App\Models\User;
 use Carbon\Carbon;
 use Illuminate\Contracts\Auth\Authenticatable;
+use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Illuminate\Pagination\LengthAwarePaginator;
 use Illuminate\Support\Facades\Auth;
 use Livewire\Attributes\Layout;
 use Livewire\Attributes\Title;
 use Livewire\Component;
 use Livewire\WithPagination;
+use Mary\Traits\Toast;
 
 class Listagem extends Component
 {
-  use WithPagination;
+  use WithPagination, Toast;
 
   public ?string $pesquisa = null;
   public ?string $data_recebimento = null;
   public int $porPagina = 10;
+  public bool $modalVisualizacao = false;
   public Authenticatable|User $usuario;
+  public Receita $receitaAtual;
 
   public function mount(): void
   {
@@ -71,5 +75,17 @@ class Listagem extends Component
     }
 
     return $query->paginate($this->porPagina);
+  }
+
+  public function setReceitaAtual(int $receita_id, string $gatilho): void {
+    try {
+      $this->receitaAtual = Receita::query()->findOrFail($receita_id);
+      match ($gatilho) {
+        'visualizacao' => $this->modalVisualizacao = !$this->modalVisualizacao,
+      };
+    } catch (ModelNotFoundException $e) {
+      $this->error('Receita não existe.');
+    }
+
   }
 }
