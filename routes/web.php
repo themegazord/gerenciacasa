@@ -18,6 +18,9 @@ Route::middleware('auth')->group(function () {
       Route::get('/cadastro', Views\Financas\Receitas\Cadastro::class)->name('financas.receitas.cadastro');
       Route::get('/edicao/{id}', Views\Financas\Receitas\Edicao::class)->name('financas.receitas.edicao');
     });
+    Route::prefix('despesas')->group(function () {
+      Route::get('/', Views\Financas\Despesas\Listagem::class)->name('financas.despesas.listagem');
+    });
     Route::prefix('categorias')->group(function () {
       Route::get('/', Views\Financas\Categorias\Listagem::class)->name('financas.categorias.listagem');
       Route::get('/cadastro', Views\Financas\Categorias\Cadastro::class)->name('financas.categorias.cadastro');
