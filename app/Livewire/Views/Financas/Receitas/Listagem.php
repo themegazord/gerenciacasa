@@ -23,6 +23,8 @@ class Listagem extends Component
   public ?string $data_recebimento = null;
   public int $porPagina = 10;
   public bool $modalVisualizacao = false;
+  public bool $modalRemocao = false;
+  public bool $modalRemocaoReceitaPai = false;
   public Authenticatable|User $usuario;
   public Receita $receitaAtual;
 
@@ -47,7 +49,8 @@ class Listagem extends Component
     }
   }
 
-  public function resetaFiltros(): void {
+  public function resetaFiltros(): void
+  {
     $this->reset('pesquisa');
     $this->reset('data_recebimento');
   }
@@ -77,15 +80,54 @@ class Listagem extends Component
     return $query->paginate($this->porPagina);
   }
 
-  public function setReceitaAtual(int $receita_id, string $gatilho): void {
+  public function setReceitaAtual(int $receita_id, string $gatilho): void
+  {
     try {
       $this->receitaAtual = Receita::query()->findOrFail($receita_id);
       match ($gatilho) {
         'visualizacao' => $this->modalVisualizacao = !$this->modalVisualizacao,
+        'remocao' => $this->modalRemocao = !$this->modalRemocao,
       };
     } catch (ModelNotFoundException $e) {
       $this->error('Receita não existe.');
     }
+  }
 
+  public function removerReceita(): void
+  {
+    try {
+      if ($this->receitaAtual->recorrente && !$this->receitaAtual->parcela_pai_id) {
+        $this->modalRemocaoReceitaPai = !$this->modalRemocaoReceitaPai;
+        return;
+      }
+      $this->receitaAtual->delete();
+      $this->success('Receita removida com sucesso');
+      $this->modalRemocao = !$this->modalRemocao;
+    } catch (ModelNotFoundException $e) {
+      $this->error('Receita não existe.', redirectTo: route('financas.receitas.listagem'));
+    }
+  }
+
+  public function removerReceitaPai(bool $decisao): void
+  {
+    if ($decisao) {
+      $this->receitaAtual->delete();
+      $this->success('Receita removida com sucesso');
+      $this->modalRemocaoReceitaPai = !$this->modalRemocaoReceitaPai;
+      $this->modalRemocao = !$this->modalRemocao;
+      return;
+    }
+
+    foreach($this->receitaAtual->receitas_filhas as $receita) {
+      $receita->receita_pai()->dissociate();
+      $receita->forceFill(['recorrente' => false]);
+      $receita->save();
+    }
+    $this->receitaAtual->delete();
+
+    $this->success('Receita removida com sucesso');
+    $this->modalRemocaoReceitaPai = !$this->modalRemocaoReceitaPai;
+    $this->modalRemocao = !$this->modalRemocao;
+    return;
   }
 }

@@ -58,8 +58,8 @@ $headersDemo = [
     @scope('actions', $receita)
     <x-dropdown>
       <x-menu-item title="Visualizar" icon="o-eye" wire:click="setReceitaAtual({{ $receita->id }}, 'visualizacao')" />
-      <x-menu-item title="Editar" icon="o-pencil-square" link="{{ route('financas.receitas.edicao', ['id' => $receita->id]) }}"/>
-      <x-menu-item title="Deletar" icon="o-trash" />
+      <x-menu-item title="Editar" icon="o-pencil-square" link="{{ route('financas.receitas.edicao', ['id' => $receita->id]) }}" />
+      <x-menu-item title="Deletar" icon="o-trash" wire:click="setReceitaAtual({{ $receita->id }}, 'remocao')" />
     </x-dropdown>
     @endscope
   </x-table>
@@ -135,4 +135,36 @@ $headersDemo = [
   </x-modal>
 
   {{-- modal de visualizacao dos dados da receita --}}
+
+  {{-- modal de remoção da receita --}}
+
+  <x-modal wire:model="modalRemocao" class="backdrop-blur" box-class="max-w-xl w-11/12">
+    @if ($receitaAtual)
+    <p class="font-semibold text-lg">Você deseja remover essa receita? Lembrando que, a partir do momento que essa receita está em uso em alguma baixa não será possivel a remoção. Caso seja a parcela pai, todas as filhas irão se apagar.</p>
+
+    <x-slot:actions>
+      <x-button label="Cancelar" @click="$wire.set('modalRemocao', false)" class="btn btn-primary" />
+      <x-button label="Remover" wire:click="removerReceita" class="btn btn-error" wire:loading.attr="disabled" spinner="removerReceita" />
+    </x-slot:actions>
+    @endif
+  </x-modal>
+
+  {{-- modal de remoção da receita --}}
+
+
+  {{-- modal de questionamento sobre remocao de parcela pai --}}
+
+  <x-modal wire:model="modalRemocaoReceitaPai" class="backdrop-blur" box-class="max-w-xl w-11/12">
+    @if ($receitaAtual)
+    <p class="font-semibold text-lg">Você deseja apagar todas as parcelas filhas ou apenas retirar o vinculo e deixá-las como parcelas normais?</p>
+
+    <x-slot:actions>
+      <x-button label="Cancelar" @click="$wire.set('modalRemocaoReceitaPai', false)" class="btn btn-primary" />
+      <x-button label="Apagar todas" wire:click="removerReceitaPai(true)" class="btn btn-error" wire:loading.attr="disabled" spinner="removerReceitaPai" />
+      <x-button label="Retirar o vinculo" wire:click="removerReceitaPai(false)" class="btn btn-error" wire:loading.attr="disabled" spinner="removerReceitaPai" />
+    </x-slot:actions>
+    @endif
+  </x-modal>
+
+  {{-- modal de questionamento sobre remocao de parcela pai --}}
 </div>
