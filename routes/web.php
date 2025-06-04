@@ -16,6 +16,7 @@ Route::middleware('auth')->group(function () {
     Route::prefix('receitas')->group(function () {
       Route::get('/', Views\Financas\Receitas\Listagem::class)->name('financas.receitas.listagem');
       Route::get('/cadastro', Views\Financas\Receitas\Cadastro::class)->name('financas.receitas.cadastro');
+      Route::get('/edicao/{id}', Views\Financas\Receitas\Edicao::class)->name('financas.receitas.edicao');
     });
     Route::prefix('categorias')->group(function () {
       Route::get('/', Views\Financas\Categorias\Listagem::class)->name('financas.categorias.listagem');
@@ -23,4 +24,5 @@ Route::middleware('auth')->group(function () {
       Route::get('/edicao/{id}', Views\Financas\Categorias\Edicao::class)->name('financas.categorias.edicao');
     });
   });
+  Route::get('404', Views\NotFound::class)->name('404');
 });

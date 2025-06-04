@@ -58,7 +58,7 @@ $headersDemo = [
     @scope('actions', $receita)
     <x-dropdown>
       <x-menu-item title="Visualizar" icon="o-eye" wire:click="setReceitaAtual({{ $receita->id }}, 'visualizacao')" />
-      <x-menu-item title="Editar" icon="o-pencil-square" />
+      <x-menu-item title="Editar" icon="o-pencil-square" link="{{ route('financas.receitas.edicao', ['id' => $receita->id]) }}"/>
       <x-menu-item title="Deletar" icon="o-trash" />
     </x-dropdown>
     @endscope
