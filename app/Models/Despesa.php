@@ -35,4 +35,24 @@ class Despesa extends Model
   {
     return $this->belongsTo(self::class, 'despesa_pai_id', 'id');
   }
+
+    public function banco(): BelongsTo
+  {
+    return $this->belongsTo(Banco::class);
+  }
+
+  public function categoria(): BelongsTo
+  {
+    return $this->belongsTo(CategoriaFinanca::class);
+  }
+
+  public function ehRecorrente(): bool
+  {
+    return (bool) $this->recorrente;
+  }
+
+  public function contemFilhas(): bool
+  {
+    return $this->despesas_filhas()->exists();
+  }
 }

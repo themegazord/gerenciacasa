@@ -4,8 +4,8 @@ namespace App\Enums;
 
 enum StatusFinancas: string
 {
-  case Aberto = "A";
-  case Fechado = "F";
+  case Aberto = true;
+  case Fechado = false;
 
   public function label(): string
   {
