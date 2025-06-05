@@ -12,7 +12,7 @@ $configuracaoDatetime = ['altFormat' => 'd/m/Y', 'mode' => 'range'];
     </div>
     <div class="flex flex-col md:flex-row gap-2 flex-1">
       <x-button label="Resetar filtros" icon="o-funnel" wire:click="resetaFiltros" class="btn btn-primary" />
-      <x-button label="Cadastrar" icon="o-plus" link="{{route('financas.receitas.cadastro')}}" class="btn btn-success" />
+      <x-button label="Cadastrar" icon="o-plus" link="{{route('financas.despesas.cadastro')}}" class="btn btn-success" />
     </div>
   </div>
 </div>
