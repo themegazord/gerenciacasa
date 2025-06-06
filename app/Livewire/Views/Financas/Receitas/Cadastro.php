@@ -23,6 +23,7 @@ class Cadastro extends Component
     'categoria_id' => null,
     'descricao' => null,
     'valor' => null,
+    'valor_aberto' => 0,
     'data' => null,
     'observacao' => null,
     'recorrente' => false,
@@ -62,6 +63,7 @@ class Cadastro extends Component
       'qtd_recorrencia.min' => 'Aceitamos o mínimo de 1 mês.',
     ]);
 
+    $this->receita['valor_aberto'] = $this->receita['valor'];
     $receitaPai = $this->usuario->receitas()->save(new Receita($this->receita));
 
     if ($this->receita['recorrente']) {

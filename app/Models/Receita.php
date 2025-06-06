@@ -15,6 +15,7 @@ class Receita extends Model
     'receita_pai_id',
     'descricao',
     'valor',
+    'valor_aberto',
     'data',
     'observacao',
     'recorrente',
