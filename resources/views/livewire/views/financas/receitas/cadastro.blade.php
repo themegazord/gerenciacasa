@@ -1,7 +1,7 @@
 @php
   $recorrencia = [
-    ['id' => true, 'name' => 'Sim'],
-    ['id' => false, 'name' => 'Não'],
+    ['id' => 1, 'name' => 'Sim'],
+    ['id' => 0, 'name' => 'Não'],
   ];
 
   $bancos = auth()->user()->bancos;
