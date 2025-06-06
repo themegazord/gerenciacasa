@@ -6,19 +6,26 @@ use App\Models\Despesa;
 use App\Models\User;
 use Carbon\Carbon;
 use Illuminate\Contracts\Auth\Authenticatable;
+use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Illuminate\Pagination\LengthAwarePaginator;
 use Illuminate\Support\Facades\Auth;
 use Livewire\Attributes\Layout;
 use Livewire\Attributes\Title;
 use Livewire\Component;
+use Mary\Traits\Toast;
 
 class Listagem extends Component
 {
+  use Toast;
+
   public Authenticatable|User $usuario;
+  public Despesa $despesaAtual;
   public ?string $pesquisa = null;
   public ?string $data_vencimento = null;
   public bool $ativo = true;
   public int $porPagina = 10;
+
+  public bool $modalVisualizacao = false;
 
   public function mount(): void
   {
@@ -75,5 +82,17 @@ class Listagem extends Component
     }
 
     return $query->paginate($this->porPagina);
+  }
+
+  public function setDespesaAtual(int $id, string $modal): void {
+    try {
+      $this->despesaAtual = Despesa::query()->findOrFail($id);
+      match ($modal) {
+        'visualizacao' => $this->modalVisualizacao = !$this->modalVisualizacao,
+        // 'remocao' => $this->modalRemocao = !$this->modalRemocao,
+      };
+    } catch (ModelNotFoundException $e) {
+      $this->error('Despesa não existe');
+    }
   }
 }

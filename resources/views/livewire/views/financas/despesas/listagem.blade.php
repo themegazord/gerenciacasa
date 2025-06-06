@@ -69,4 +69,71 @@ $headersDemo = [
     </x-dropdown>
     @endscope
   </x-table>
+  {{-- modal de visualizacao de despesa --}}
+  <x-modal wire:model="modalVisualizacao" class="backdrop-blur" box-class="max-w-2xl w-11/12" separator>
+    @if ($despesaAtual)
+    <x-slot:title>Detalhes da despesa: #{{ $despesaAtual->id }} </x-slot:title>
+
+    <div class="flex flex-col md:flex-row gap-4">
+      <div class="flex-1">
+        <x-card shadow>
+          <p class="card-title text-primary">Descrição da despesa:</p>
+          <p class="text-lg">{{ $despesaAtual->descricao }}</p>
+        </x-card>
+      </div>
+      <div class="flex-1">
+        <x-card shadow>
+          <p class="card-title text-error">Valor:</p>
+          <p class="text-lg">R$ {{ number_format($despesaAtual->valor, 2, ',', '.') }}</p>
+        </x-card>
+      </div>
+    </div>
+
+    <div class="flex flex-col md:flex-row gap-4">
+      <div class="flex-1">
+        <x-card shadow>
+          <p class="card-title text-primary">Data do vencimento:</p>
+          <p class="text-lg">{{ \Carbon\Carbon::parse($despesaAtual->data)->rawFormat('d/m/Y') }}</p>
+        </x-card>
+      </div>
+      <div class="flex-1">
+        <x-card shadow>
+          <p class="card-title text-primary">É recorrente?</p>
+          <p class="text-lg">{{ $despesaAtual->recorrente ? 'Sim, é uma parcela ' : 'Não' }} {{ $despesaAtual->despesa_pai_id ? 'filha.' : 'pai.' }}</p>
+        </x-card>
+      </div>
+    </div>
+
+    @if ($despesaAtual->observacao)
+    <x-card shadow>
+      <p class="card-title text-primary">Observação:</p>
+      <p class="text-lg">{{ $despesaAtual->observacao }}</p>
+    </x-card>
+    @endif
+
+    @if ($despesaAtual->ehRecorrente())
+    @if (!$despesaAtual->despesa_pai_id)
+    <x-card shadow>
+      <p class="card-title text-primary">Parcelas:</p>
+      <x-table :headers="$headersDemo" :rows="$despesaAtual->despesas_filhas()->paginate(5)">
+        @scope('cell_valor', $despesa)
+        R$ {{ number_format($despesa->valor, 2, ',', '.') }}
+        @endscope
+
+        @scope('cell_data_vencimento', $despesa)
+        {{ Carbon\Carbon::parse($despesa->data_vencimento)->format('d/m/Y') }}
+        @endscope
+      </x-table>
+    </x-card>
+    @else
+    <x-card shadow>
+      <p class="card-title text-primary">Id do código pai: #{{ $despesaAtual->despesa_pai_id }}</p>
+    </x-card>
+    @endif
+
+    @endif
+
+    @endif
+  </x-modal>
+  {{-- modal de visualizacao de despesa --}}
 </div>
