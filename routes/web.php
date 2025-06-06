@@ -21,7 +21,7 @@ Route::middleware('auth')->group(function () {
     Route::prefix('despesas')->group(function () {
       Route::get('/', Views\Financas\Despesas\Listagem::class)->name('financas.despesas.listagem');
       Route::get('/cadastro', Views\Financas\Despesas\Cadastro::class)->name('financas.despesas.cadastro');
-      Route::get('/edicao/{id}')->name('financas.despesas.edicao');
+      Route::get('/edicao/{id}', Views\Financas\Despesas\Edicao::class)->name('financas.despesas.edicao');
     });
     Route::prefix('categorias')->group(function () {
       Route::get('/', Views\Financas\Categorias\Listagem::class)->name('financas.categorias.listagem');
