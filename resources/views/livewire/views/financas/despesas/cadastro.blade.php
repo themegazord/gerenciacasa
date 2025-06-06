@@ -34,9 +34,6 @@
         <x-input label="Valor" wire:model="despesa.valor" prefix="R$" locale="pt-BR" money required />
       </div>
       <div class="flex-1">
-        <x-input label="Valor em aberto" hint="Deixar zerado vai dizer que o valor em aberto é o mesmo que o valor da despesa" wire:model="despesa.valor_aberto" prefix="R$" locale="pt-BR" money />
-      </div>
-      <div class="flex-1">
         <x-datetime label="Data do vencimento" wire:model="despesa.data_vencimento" required />
       </div>
     </div>
