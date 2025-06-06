@@ -23,7 +23,7 @@ class Cadastro extends Component
     'descricao' => null,
     'valor' => null,
     'valor_total' => null,
-    'valor_aberto' => null,
+    'valor_aberto' => 0,
     'data_vencimento' => null,
     'observacao' => null,
     'recorrente' => false,
