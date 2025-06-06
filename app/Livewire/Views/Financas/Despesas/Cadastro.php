@@ -64,12 +64,13 @@ class Cadastro extends Component
       'qtd_recorrencia.min' => 'Aceitamos o mínimo de 1 mês.',
     ]);
 
+    $despesaPai = $this->usuario->despesas()->save(new despesa($this->despesa));
+
     if ($this->despesa['recorrente']) {
       $dataVencimentoBase = Carbon::parse($this->despesa['data_vencimento']);
       if ($this->despesa['valor_aberto'] == 0) {
         $this->despesa['valor_aberto'] = $this->despesa['valor'];
       }
-      $despesaPai = $this->usuario->despesas()->save(new despesa($this->despesa));
       for ($i = 1; $i <= $this->qtd_recorrencia; $i += 1) {
         $novaDataVencimento = (clone $dataVencimentoBase)->addMonths($i);
         $this->usuario->despesas()->save(new despesa([

@@ -62,9 +62,10 @@ class Cadastro extends Component
       'qtd_recorrencia.min' => 'Aceitamos o mínimo de 1 mês.',
     ]);
 
+    $receitaPai = $this->usuario->receitas()->save(new Receita($this->receita));
+
     if ($this->receita['recorrente']) {
       $dataBase = Carbon::parse($this->receita['data']);
-      $receitaPai = $this->usuario->receitas()->save(new Receita($this->receita));
       for ($i = 1; $i <= $this->qtd_recorrencia; $i += 1) {
         $novaData = (clone $dataBase)->addMonths($i);
         $this->usuario->receitas()->save(new Receita([
