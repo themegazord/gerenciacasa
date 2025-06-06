@@ -69,6 +69,7 @@ $headersDemo = [
     </x-dropdown>
     @endscope
   </x-table>
+
   {{-- modal de visualizacao de despesa --}}
   <x-modal wire:model="modalVisualizacao" class="backdrop-blur" box-class="max-w-2xl w-11/12" separator>
     @if ($despesaAtual)
@@ -136,4 +137,36 @@ $headersDemo = [
     @endif
   </x-modal>
   {{-- modal de visualizacao de despesa --}}
+
+    {{-- modal de remoção da despesa --}}
+
+  <x-modal wire:model="modalRemocao" class="backdrop-blur" box-class="max-w-xl w-11/12">
+    @if ($despesaAtual)
+    <p class="font-semibold text-lg">Você deseja remover essa despesa? Lembrando que, a partir do momento que essa despesa está em uso em alguma baixa não será possivel a remoção. Caso seja a parcela pai, todas as filhas irão se apagar.</p>
+
+    <x-slot:actions>
+      <x-button label="Cancelar" @click="$wire.set('modalRemocao', false)" class="btn btn-primary" />
+      <x-button label="Remover" wire:click="removerDespesa" class="btn btn-error" wire:loading.attr="disabled" spinner="removerDespesa" />
+    </x-slot:actions>
+    @endif
+  </x-modal>
+
+  {{-- modal de remoção da despesa --}}
+
+
+  {{-- modal de questionamento sobre remocao de parcela pai --}}
+
+  <x-modal wire:model="modalRemocaoDespesaPai" class="backdrop-blur" box-class="max-w-xl w-11/12">
+    @if ($despesaAtual)
+    <p class="font-semibold text-lg">Você deseja apagar todas as parcelas filhas ou apenas retirar o vinculo e deixá-las como parcelas normais?</p>
+
+    <x-slot:actions>
+      <x-button label="Cancelar" @click="$wire.set('modalRemocaoDespesaPai', false)" class="btn btn-primary" />
+      <x-button label="Apagar todas" wire:click="removerDespesaPai(true)" class="btn btn-error" wire:loading.attr="disabled" spinner="removerDespesaPai" />
+      <x-button label="Retirar o vinculo" wire:click="removerDespesaPai(false)" class="btn btn-error" wire:loading.attr="disabled" spinner="removerDespesaPai" />
+    </x-slot:actions>
+    @endif
+  </x-modal>
+
+  {{-- modal de questionamento sobre remocao de parcela pai --}}
 </div>

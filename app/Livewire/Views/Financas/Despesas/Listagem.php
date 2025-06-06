@@ -26,6 +26,8 @@ class Listagem extends Component
   public int $porPagina = 10;
 
   public bool $modalVisualizacao = false;
+  public bool $modalRemocao = false;
+  public bool $modalRemocaoDespesaPai = false;
 
   public function mount(): void
   {
@@ -89,10 +91,48 @@ class Listagem extends Component
       $this->despesaAtual = Despesa::query()->findOrFail($id);
       match ($modal) {
         'visualizacao' => $this->modalVisualizacao = !$this->modalVisualizacao,
-        // 'remocao' => $this->modalRemocao = !$this->modalRemocao,
+        'remocao' => $this->modalRemocao = !$this->modalRemocao,
       };
     } catch (ModelNotFoundException $e) {
       $this->error('Despesa não existe');
     }
+  }
+
+    public function removerDespesa(): void
+  {
+    try {
+      if ($this->despesaAtual->recorrente && !$this->despesaAtual->despesa_pai_id) {
+        $this->modalRemocaoDespesaPai = !$this->modalRemocaoDespesaPai;
+        return;
+      }
+      $this->despesaAtual->delete();
+      $this->success('Despesa removida com sucesso');
+      $this->modalRemocao = !$this->modalRemocao;
+    } catch (ModelNotFoundException $e) {
+      $this->error('Despesa não existe.', redirectTo: route('financas.despesas.listagem'));
+    }
+  }
+
+  public function removerDespesaPai(bool $decisao): void
+  {
+    if ($decisao) {
+      $this->despesaAtual->delete();
+      $this->success('despesa removida com sucesso');
+      $this->modalRemocaoDespesaPai = !$this->modalRemocaoDespesaPai;
+      $this->modalRemocao = !$this->modalRemocao;
+      return;
+    }
+
+    foreach($this->despesaAtual->despesas_filhas as $despesa) {
+      $despesa->despesa_pai()->dissociate();
+      $despesa->forceFill(['recorrente' => false]);
+      $despesa->save();
+    }
+    $this->despesaAtual->delete();
+
+    $this->success('Despesa removida com sucesso');
+    $this->modalRemocaoDespesaPai = !$this->modalRemocaoDespesaPai;
+    $this->modalRemocao = !$this->modalRemocao;
+    return;
   }
 }
