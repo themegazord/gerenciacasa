@@ -12,6 +12,7 @@ class Receita extends Model
     'user_id',
     'banco_id',
     'categoria_id',
+    'status',
     'receita_pai_id',
     'descricao',
     'valor',

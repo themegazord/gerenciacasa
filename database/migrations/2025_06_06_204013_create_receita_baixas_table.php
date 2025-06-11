@@ -15,10 +15,11 @@ return new class extends Migration
       $table->id();
       $table->foreignId('user_id')->constrained('users')->cascadeOnDelete();
       $table->foreignId('receita_id')->constrained('receitas');
+      $table->foreignId('banco_id')->constrained('bancos')->cascadeOnDelete();
       $table->string('descricao', 100);
+      $table->float('valor');
       $table->date('data_baixa');
       $table->string('forma_pagamento')->nullable();
-      $table->foreignId('banco_id')->constrained('bancos')->cascadeOnDelete();
       $table->text('observacoes')->nullable();
       $table->boolean('conciliado')->default(false);
       $table->timestamp('conciliado_em')->nullable();

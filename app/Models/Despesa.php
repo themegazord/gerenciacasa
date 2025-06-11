@@ -10,6 +10,7 @@ use Illuminate\Database\Eloquent\Relations\HasMany;
 class Despesa extends Model
 {
   protected $fillable = [
+    'user_id',
     'banco_id',
     'categoria_id',
     'despesa_pai_id',

@@ -31,6 +31,7 @@ Route::middleware('auth')->group(function () {
     Route::prefix('baixas')->group(function () {
       Route::prefix('receitas')->group(function () {
         Route::get('/', Views\Financas\Baixas\Receitas\Listagem::class)->name('financas.baixas.receitas.listagem');
+        Route::get('/cadastro', Views\Financas\Baixas\Receitas\Cadastro::class)->name('financas.baixas.receitas.cadastro');
       });
     });
   });

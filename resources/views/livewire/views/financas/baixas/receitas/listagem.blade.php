@@ -12,7 +12,7 @@
       <x-datepicker label="Data da baixa" wire:model.change="data_baixa" icon="o-calendar" :config="$configuracaoDatetime" inline />
     </div>
     <div class="flex-1">
-      <x-button label="Cadastrar" icon="o-plus" class="btn btn-success w-full md:w-auto" link="{{ route('financas.bancos.cadastro') }}" />
+      <x-button label="Cadastrar" icon="o-plus" class="btn btn-success w-full md:w-auto" link="{{ route('financas.baixas.receitas.cadastro') }}" />
     </div>
   </div>
 
