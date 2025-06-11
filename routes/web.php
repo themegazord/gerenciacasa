@@ -28,6 +28,11 @@ Route::middleware('auth')->group(function () {
       Route::get('/cadastro', Views\Financas\Categorias\Cadastro::class)->name('financas.categorias.cadastro');
       Route::get('/edicao/{id}', Views\Financas\Categorias\Edicao::class)->name('financas.categorias.edicao');
     });
+    Route::prefix('baixas')->group(function () {
+      Route::prefix('receitas')->group(function () {
+        Route::get('/', Views\Financas\Baixas\Receitas\Listagem::class)->name('financas.baixas.receitas.listagem');
+      });
+    });
   });
   Route::get('404', Views\NotFound::class)->name('404');
 });

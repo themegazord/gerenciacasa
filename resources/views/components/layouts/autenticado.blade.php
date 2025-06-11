@@ -10,16 +10,16 @@
   @vite(['resources/css/app.css', 'resources/js/app.js'])
   <script type="text/javascript" src="https://cdn.jsdelivr.net/gh/robsontenorio/mary@0.44.2/libs/currency/currency.js"></script>
 
-  {{--  Currency  --}}
-    <script type="text/javascript" src="https://cdn.jsdelivr.net/gh/robsontenorio/mary@0.44.2/libs/currency/currency.js"></script>
+  {{-- Currency  --}}
+  <script type="text/javascript" src="https://cdn.jsdelivr.net/gh/robsontenorio/mary@0.44.2/libs/currency/currency.js"></script>
   {{-- Flatpickr  --}}
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css">
-    <script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
-    <script src="https://npmcdn.com/flatpickr/dist/l10n/pt.js"></script>
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css">
+  <script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
+  <script src="https://npmcdn.com/flatpickr/dist/l10n/pt.js"></script>
 
-    <script>
-        flatpickr.localize(flatpickr.l10ns.pt);
-    </script>
+  <script>
+    flatpickr.localize(flatpickr.l10ns.pt);
+  </script>
 </head>
 
 <body class="min-h-screen font-sans antialiased bg-base-200">
@@ -48,17 +48,17 @@
 
         {{-- User --}}
         @if ($user = auth()->user())
-          <x-menu-separator />
+        <x-menu-separator />
 
-          <x-list-item :item="$user" value="name" sub-value="email" no-separator no-hover
-            class="-mx-2 !-my-2 rounded">
-            <x-slot:actions>
-              <x-button icon="o-power" class="btn-circle btn-ghost btn-xs" tooltip-left="logoff" no-wire-navigate
-                link="/logout" />
-            </x-slot:actions>
-          </x-list-item>
+        <x-list-item :item="$user" value="name" sub-value="email" no-separator no-hover
+          class="-mx-2 !-my-2 rounded">
+          <x-slot:actions>
+            <x-button icon="o-power" class="btn-circle btn-ghost btn-xs" tooltip-left="logoff" no-wire-navigate
+              link="/logout" />
+          </x-slot:actions>
+        </x-list-item>
 
-          <x-menu-separator />
+        <x-menu-separator />
         @endif
 
         {{-- Main Sections --}}
@@ -70,7 +70,12 @@
           <x-menu-item title="Despesas" icon="o-arrow-down-circle" link="{{ route('financas.despesas.listagem') }}" />
           <x-menu-item title="Categorias" icon="o-tag" link="{{ route('financas.categorias.listagem') }}" />
           <x-menu-item title="Contas Bancárias" icon="o-banknotes" link="{{ route('financas.bancos.listagem') }}" />
+          <x-menu-sub title="Baixas" icon="o-document-currency-dollar">
+            <x-menu-item title="Receitas" icon="o-arrow-up-circle" link="{{ route('financas.baixas.receitas.listagem') }}" />
+            <x-menu-item title="Despesas" icon="o-arrow-down-circle" link="{{ route('financas.despesas.listagem') }}" />
+          </x-menu-sub>
         </x-menu-sub>
+
 
         {{-- Relatórios --}}
         <x-menu-sub title="Relatórios" icon="o-chart-bar">
