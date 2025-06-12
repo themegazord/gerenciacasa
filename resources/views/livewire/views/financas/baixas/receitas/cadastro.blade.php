@@ -1,14 +1,6 @@
 @php
 $configuracaoDatetime = ['altFormat' => 'd/m/Y'];
 
-$formasPagamento = [
-['id' => 'dinheiro', 'name' => 'Dinheiro'],
-['id' => 'pix', 'name' => 'Pix'],
-['id' => 'transferencia', 'name' => 'Transferência Bancária'],
-['id' => 'credito', 'name' => 'C. Crédito'],
-['id' => 'debito', 'name' => 'C. Débito'],
-];
-
 $bancos = auth()->user()->bancos;
 @endphp
 <div class="p-4 md:p-6">
@@ -33,7 +25,7 @@ $bancos = auth()->user()->bancos;
       <div class="flex-1">
         <x-input label="Descrição" wire:model="baixa.descricao" placeholder="Informe a descrição da baixa..." required />
       </div>
-            <div class="flex-1">
+      <div class="flex-1">
         <x-choices
           label="Banco"
           wire:model="baixa.banco_id"
@@ -54,21 +46,21 @@ $bancos = auth()->user()->bancos;
 
     <div class="flex flex-col gap-4 md:flex-row">
       <div class="flex-1">
-        <x-select label="Forma de pagamento" wire:model="baixa.forma_pagamento" placeholder="Selecione a forma de pagamento..." :options="$formasPagamento" required />
+        <x-select label="Forma de pagamento" wire:model="baixa.forma_pagamento" placeholder="Selecione a forma de pagamento..." :options="auth()->user()->formasPagamento()" required />
       </div>
       <div class="flex-1">
         <x-datepicker label="Data do recebimento" wire:model="baixa.data_baixa" icon="o-calendar" :config="$configuracaoDatetime" required />
       </div>
       <div class="flex-1">
-        <x-input label="Valor" wire:model="baixa.valor" prefix="R$" locale="pt-BR" money required/>
+        <x-input label="Valor" wire:model="baixa.valor" prefix="R$" locale="pt-BR" money required />
       </div>
     </div>
 
     <x-textarea label="Observações" rows="5" wire:model="baixa.observacoes" />
 
     <x-slot:actions>
-      <x-button label="Voltar" link="{{ route('financas.baixas.receitas.listagem') }}" class="btn btn-error"/>
-      <x-button label="Cadastrar" wire:click="cadastrar" wire:loading.attr="disabled" spinner="cadastrar" class="btn btn-success"/>
+      <x-button label="Voltar" link="{{ route('financas.baixas.receitas.listagem') }}" class="btn btn-error" />
+      <x-button label="Cadastrar" wire:click="cadastrar" wire:loading.attr="disabled" spinner="cadastrar" class="btn btn-success" />
     </x-slot:actions>
   </x-form>
 </div>

@@ -65,7 +65,7 @@ class Cadastro extends Component
 
     $baixa = new ReceitaBaixa($this->baixa);
 
-    $this->usuario->baixas()->save($baixa);
+    $this->usuario->receitaBaixas()->save($baixa);
 
     $this->success('Baixa registrada com sucesso', redirectTo: route('financas.baixas.receitas.listagem'));
   }
