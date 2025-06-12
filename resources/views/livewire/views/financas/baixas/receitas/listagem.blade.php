@@ -10,7 +10,7 @@ $headers = [
 ];
 @endphp
 <div class="p-4 md:p-6">
-  <h1 class="text-2xl font-bold mb-6">Baixa das Receitas</h1>
+  <h1 class="text-2xl font-bold mb-6">Baixa das baixas</h1>
 
   <div class="flex flex-col md:flex-row md:items-end gap-4 mb-8">
     <div class="flex-3">
@@ -35,7 +35,7 @@ $headers = [
     @endscope
 
     @scope('cell_forma_pagamento', $baixa)
-    {{ collect(auth()->user()->formasPagamento())->firstWhere('id', $baixa->forma_pagamento)['name'] ?? null }}
+    {{ auth()->user()->retornaFormaPagamento($baixa->forma_pagamento) }}
     @endscope
 
     @scope('actions', $baixa)
@@ -46,5 +46,54 @@ $headers = [
     </x-dropdown>
     @endscope
   </x-table>
+
+  {{-- modal para visualizacao dos dados da baixa --}}
+
+  <x-modal wire:model="modalVisualizacao" class="backdrop-blur" box-class="max-w-3xl w-11/12" separator>
+    @if ($baixaAtual)
+    <x-slot:title>
+      Detalhes da baixa: {{ $baixaAtual->id }}
+    </x-slot:title>
+
+    <div class="flex flex-col md:flex-row gap-4">
+      <div class="flex-1">
+        <x-card shadow>
+          <p class="card-title text-primary">Descrição da baixa:</p>
+          <p class="text-lg">{{ $baixaAtual->descricao }}</p>
+        </x-card>
+      </div>
+      <div class="flex-1">
+        <x-card shadow>
+          <p class="card-title text-success">Valor:</p>
+          <p class="text-lg">R$ {{ number_format($baixaAtual->valor, 2, ',', '.') }}</p>
+        </x-card>
+      </div>
+    </div>
+
+    <div class="flex flex-col md:flex-row gap-4">
+      <div class="flex-1">
+        <x-card shadow>
+          <p class="card-title text-primary">Data da recebimento:</p>
+          <p class="text-lg">{{ \Carbon\Carbon::parse($baixaAtual->data_baixa)->rawFormat('d/m/Y') }}</p>
+        </x-card>
+      </div>
+      <div class="flex-1">
+        <x-card shadow>
+          <p class="card-title text-primary">Forma de pagamento</p>
+          <p class="text-lg">{{ auth()->user()->retornaFormaPagamento($baixaAtual->forma_pagamento) }}</p>
+        </x-card>
+      </div>
+    </div>
+
+    @if ($baixaAtual->observacao)
+    <x-card shadow>
+      <p class="card-title text-primary">Observação:</p>
+      <p class="text-lg">{{ $baixaAtual->observacoes }}</p>
+    </x-card>
+    @endif
+    @endif
+  </x-modal>
+
+  {{-- modal para visualizacao dos dados da baixa --}}
 
 </div>

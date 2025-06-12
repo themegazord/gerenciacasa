@@ -82,4 +82,8 @@ class User extends Authenticatable
       ['id' => 'debito', 'name' => 'C. Débito'],
     ];
   }
+
+  public function retornaFormaPagamento($fp): string {
+    return collect($this->formasPagamento())->firstWhere('id', $fp)['name'] ?? null;
+  }
 }

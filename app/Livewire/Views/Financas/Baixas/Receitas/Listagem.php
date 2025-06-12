@@ -6,6 +6,7 @@ use App\Models\ReceitaBaixa;
 use App\Models\User;
 use Carbon\Carbon;
 use Illuminate\Contracts\Auth\Authenticatable;
+use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Illuminate\Pagination\LengthAwarePaginator;
 use Illuminate\Support\Facades\Auth;
 use Livewire\Attributes\Layout;
@@ -19,9 +20,12 @@ class Listagem extends Component
   use Toast, WithPagination;
 
   public Authenticatable|User $usuario;
+  public ReceitaBaixa $baixaAtual;
   public ?string $pesquisa = null;
   public ?string $data_baixa = null;
   public int $porPagina = 10;
+
+  public bool $modalVisualizacao = false;
 
   public function mount(): void
   {
@@ -66,5 +70,17 @@ class Listagem extends Component
     foreach (['pesquisa', 'data_baixa'] as $item) {
       $this->reset($item);
     }
+  }
+
+  public function setBaixaAtual(int $baixa_id, string $opcao): void {
+    try {
+      $this->baixaAtual = ReceitaBaixa::query()->findOrFail($baixa_id);
+    } catch (ModelNotFoundException $e) {
+      $this->success('A baixa não existe.');
+    }
+
+    match ($opcao) {
+      'visualizacao' => $this->modalVisualizacao = !$this->modalVisualizacao,
+    };
   }
 }
