@@ -41,7 +41,7 @@ $headers = [
     @scope('actions', $baixa)
     <x-dropdown>
       <x-menu-item title="Visualizar" icon="o-eye" wire:click="setBaixaAtual({{ $baixa->id }}, 'visualizacao')" />
-      <x-menu-item title="Editar" icon="o-pencil-square" link="{{ route('financas.baixas.receitas.edicao', ['id' => $baixa->id]) }}"/>
+      <x-menu-item title="Editar" icon="o-pencil-square" link="{{ route('financas.baixas.receitas.edicao', ['id' => $baixa->id]) }}" />
       <x-menu-item title="Deletar" icon="o-trash" wire:click="setBaixaAtual({{ $baixa->id }}, 'remocao')" />
     </x-dropdown>
     @endscope
@@ -95,5 +95,18 @@ $headers = [
   </x-modal>
 
   {{-- modal para visualizacao dos dados da baixa --}}
+
+  <x-modal wire:model="modalRemocao" class="backdrop-blur" box-class="max-w-xl w-11/12">
+    @if ($baixaAtual)
+    <p class="font-semibold text-lg">Deseja realmente remover esta baixa? Ao prosseguir, todas as movimentações realizadas por ela no sistema bancário serão desfeitas, impactando retroativamente a receita.</p>
+
+    <x-slot:actions>
+      <x-button label="Cancelar" @click="$wire.set('modalRemocao', false)" class="btn btn-primary" />
+      <x-button label="Remover" wire:click="removerBaixa" class="btn btn-error" wire:loading.attr="disabled" spinner="removerBaixa" />
+    </x-slot:actions>
+    @endif
+  </x-modal>
+
+  {{-- modal de solicitacao de remocao de baixa --}}
 
 </div>

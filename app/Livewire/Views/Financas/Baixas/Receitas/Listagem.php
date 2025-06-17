@@ -26,6 +26,7 @@ class Listagem extends Component
   public int $porPagina = 10;
 
   public bool $modalVisualizacao = false;
+  public bool $modalRemocao = false;
 
   public function mount(): void
   {
@@ -81,6 +82,14 @@ class Listagem extends Component
 
     match ($opcao) {
       'visualizacao' => $this->modalVisualizacao = !$this->modalVisualizacao,
+      'remocao' => $this->modalRemocao = !$this->modalRemocao,
     };
+  }
+
+  public function removerBaixa(): void {
+    $this->baixaAtual->delete();
+
+    $this->success('Baixa removida com sucesso');
+    $this->modalRemocao = !$this->modalRemocao;
   }
 }

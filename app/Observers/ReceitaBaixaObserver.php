@@ -115,13 +115,10 @@ class ReceitaBaixaObserver
         'saldo_atual' => $banco->saldo_atual - $receitaBaixa->valor
       ]);
 
-      $updates = ['valor_aberto' => $receita->valor_aberto + $receitaBaixa->valor];
-
-      if (!$receita->status) {
-        $updates['status'] = true;
-      }
-
-      $receita->update($updates);
+      $receita->update([
+        'status' => true,
+        'valor_aberto' =>  $receita->valor_aberto + $receitaBaixa->valor
+      ]);
     });
   }
 
