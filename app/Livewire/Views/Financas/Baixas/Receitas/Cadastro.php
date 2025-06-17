@@ -31,7 +31,7 @@ class Cadastro extends Component
 
   public function mount(): void {
     $this->usuario = Auth::user();
-    $this->receitas = $this->usuario->receitas;
+    $this->receitas = $this->usuario->receitas()->where('status', true)->get();
   }
 
   #[Title('Finanças - Baixas - Receitas - Cadastro')]

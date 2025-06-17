@@ -40,7 +40,12 @@ class Edicao extends Component
     }
 
     $this->usuario = Auth::user();
-    $this->receitas = $this->usuario->receitas;
+    $receitaAtualId = $this->baixaAtual->receita->id;
+    $this->receitas = $this->usuario->receitas()->where('status', true)
+    ->orWhere(function ($query) use ($receitaAtualId) {
+        $query->where('id', $receitaAtualId)
+              ->where('status', false);
+    })->get();
     $this->bancos = $this->usuario->bancos;
 
     $this->baixa['receita_id'] = $this->baixaAtual->receita_id;
