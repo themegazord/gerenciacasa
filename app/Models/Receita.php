@@ -22,6 +22,13 @@ class Receita extends Model
     'recorrente',
   ];
 
+  protected function casts(): array
+  {
+    return [
+      'status' => 'bool',
+    ];
+  }
+
   public function usuario(): BelongsTo
   {
     return $this->belongsTo(User::class);
