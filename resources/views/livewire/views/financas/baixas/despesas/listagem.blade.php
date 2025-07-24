@@ -95,4 +95,19 @@ $headers = [
   </x-modal>
 
   {{-- modal para visualizacao dos dados da baixa --}}
+
+  {{-- modal de solicitacao de remocao de baixa --}}
+
+  <x-modal wire:model="modalRemocao" class="backdrop-blur" box-class="max-w-xl w-11/12">
+    @if ($baixaAtual)
+    <p class="font-semibold text-lg">Deseja realmente remover esta baixa? Ao prosseguir, todas as movimentações realizadas por ela no sistema bancário serão desfeitas, impactando retroativamente a despesa.</p>
+
+    <x-slot:actions>
+      <x-button label="Cancelar" @click="$wire.set('modalRemocao', false)" class="btn btn-primary" />
+      <x-button label="Remover" wire:click="removerBaixa" class="btn btn-error" wire:loading.attr="disabled" spinner="removerBaixa" />
+    </x-slot:actions>
+    @endif
+  </x-modal>
+
+  {{-- modal de solicitacao de remocao de baixa --}}
 </div>

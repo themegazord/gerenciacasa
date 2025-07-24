@@ -105,7 +105,19 @@ class DespesaBaixaObserver
    */
   public function deleted(DespesaBaixa $despesaBaixa): void
   {
-    //
+    $banco = $despesaBaixa->banco;
+    $despesa = $despesaBaixa->despesa;
+
+    DB::transaction(function () use ($banco, $despesa, $despesaBaixa) {
+      $banco->update([
+        'saldo_atual' => $banco->saldo_atual + $despesaBaixa->valor
+      ]);
+
+      $despesa->update([
+        'status' => true,
+        'valor_aberto' =>  $despesa->valor_aberto + $despesaBaixa->valor
+      ]);
+    });
   }
 
   /**
