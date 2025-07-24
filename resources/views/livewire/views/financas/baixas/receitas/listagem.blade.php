@@ -96,6 +96,8 @@ $headers = [
 
   {{-- modal para visualizacao dos dados da baixa --}}
 
+  {{-- modal de solicitacao de remocao de baixa --}}
+
   <x-modal wire:model="modalRemocao" class="backdrop-blur" box-class="max-w-xl w-11/12">
     @if ($baixaAtual)
     <p class="font-semibold text-lg">Deseja realmente remover esta baixa? Ao prosseguir, todas as movimentações realizadas por ela no sistema bancário serão desfeitas, impactando retroativamente a receita.</p>
