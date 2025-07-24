@@ -41,7 +41,7 @@ $headers = [
     @scope('actions', $baixa)
     <x-dropdown>
       <x-menu-item title="Visualizar" icon="o-eye" wire:click="setBaixaAtual({{ $baixa->id }}, 'visualizacao')" />
-      <x-menu-item title="Editar" icon="o-pencil-square" />
+      <x-menu-item title="Editar" icon="o-pencil-square" link="{{ route('financas.baixas.despesas.edicao', ['id' => $baixa->id]) }}"/>
       <x-menu-item title="Deletar" icon="o-trash" wire:click="setBaixaAtual({{ $baixa->id }}, 'remocao')" />
     </x-dropdown>
     @endscope
