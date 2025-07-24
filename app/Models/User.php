@@ -72,6 +72,11 @@ class User extends Authenticatable
     return $this->hasMany(ReceitaBaixa::class);
   }
 
+  public function despesaBaixas(): HasMany
+  {
+    return $this->hasMany(DespesaBaixa::class);
+  }
+
   public function formasPagamento(): array
   {
     return [

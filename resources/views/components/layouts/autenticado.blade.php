@@ -72,7 +72,7 @@
           <x-menu-item title="Contas Bancárias" icon="o-banknotes" link="{{ route('financas.bancos.listagem') }}" />
           <x-menu-sub title="Baixas" icon="o-document-currency-dollar">
             <x-menu-item title="Receitas" icon="o-arrow-up-circle" link="{{ route('financas.baixas.receitas.listagem') }}" />
-            <x-menu-item title="Despesas" icon="o-arrow-down-circle" link="{{ route('financas.despesas.listagem') }}" />
+            <x-menu-item title="Despesas" icon="o-arrow-down-circle" link="{{ route('financas.baixas.despesas.listagem') }}" />
           </x-menu-sub>
         </x-menu-sub>
 

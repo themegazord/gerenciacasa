@@ -36,7 +36,7 @@ Route::middleware('auth')->group(function () {
       });
       Route::prefix('despesas')->group(function () {
         Route::get('/', Views\Financas\Baixas\Despesas\Listagem::class)->name('financas.baixas.despesas.listagem');
-        // Route::get('/cadastro', Views\Financas\Baixas\Receitas\Cadastro::class)->name('financas.baixas.receitas.cadastro');
+        Route::get('/cadastro', Views\Financas\Baixas\Despesas\Cadastro::class)->name('financas.baixas.despesas.cadastro');
         // Route::get('/edicao/{id}', Views\Financas\Baixas\Receitas\Edicao::class)->name('financas.baixas.receitas.edicao');
       });
     });

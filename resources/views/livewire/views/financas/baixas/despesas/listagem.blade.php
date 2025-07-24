@@ -21,7 +21,7 @@ $headers = [
     </div>
     <div class="flex flex-col md:flex-row gap-2 flex-1">
       <x-button label="Resetar filtros" icon="o-funnel" wire:click="resetaFiltros" class="btn btn-primary" />
-      <x-button label="Cadastrar" icon="o-plus" class="btn btn-success" />
+      <x-button label="Cadastrar" icon="o-plus" class="btn btn-success" link="{{ route('financas.baixas.despesas.cadastro') }}"/>
     </div>
   </div>
 
