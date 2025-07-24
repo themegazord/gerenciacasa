@@ -6,6 +6,7 @@ use App\Models\DespesaBaixa;
 use App\Models\User;
 use Carbon\Carbon;
 use Illuminate\Contracts\Auth\Authenticatable;
+use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Illuminate\Pagination\LengthAwarePaginator;
 use Illuminate\Support\Facades\Auth;
 use Livewire\Attributes\Layout;
@@ -19,9 +20,13 @@ class Listagem extends Component
   use Toast, WithPagination, WithPagination;
 
   public Authenticatable|User $usuario;
+  public DespesaBaixa $baixaAtual;
   public ?string $pesquisa = null;
   public ?string $data_baixa = null;
   public int $porPagina = 10;
+
+  public bool $modalVisualizacao = false;
+  public bool $modalRemocao = false;
 
   public function mount(): void
   {
@@ -60,5 +65,34 @@ class Listagem extends Component
     }
 
     return $query->paginate($this->porPagina);
+  }
+
+  public function resetaFiltros(): void
+  {
+    foreach (['pesquisa', 'data_baixa'] as $item) {
+      $this->reset($item);
+    }
+  }
+
+  public function setBaixaAtual(int $baixa_id, string $opcao): void
+  {
+    try {
+      $this->baixaAtual = DespesaBaixa::query()->findOrFail($baixa_id);
+    } catch (ModelNotFoundException $e) {
+      $this->success('A baixa não existe.');
+    }
+
+    match ($opcao) {
+      'visualizacao' => $this->modalVisualizacao = !$this->modalVisualizacao,
+      'remocao' => $this->modalRemocao = !$this->modalRemocao,
+    };
+  }
+
+  public function removerBaixa(): void
+  {
+    $this->baixaAtual->delete();
+
+    $this->success('Baixa removida com sucesso');
+    $this->modalRemocao = !$this->modalRemocao;
   }
 }
